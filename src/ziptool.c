@@ -699,12 +699,16 @@ read_from_file(const char *archive, int flags, zip_error_t *error, zip_uint64_t 
     int err;
 
     if (offset == 0 && length == 0) {
+#ifdef HAVE_UNISTD_H // STDIN_FILENO is declared in unistd.h
 	if (strcmp(archive, "/dev/stdin") == 0) {
 	    zaa = zip_fdopen(STDIN_FILENO, flags & ~ZIP_CREATE, &err);
 	}
 	else {
 	    zaa = zip_open(archive, flags, &err);
 	}
+#else
+	zaa = zip_open(archive, flags, &err);
+#endif
 	if (zaa == NULL) {
 	    zip_error_set(error, err, errno);
 	    return NULL;
