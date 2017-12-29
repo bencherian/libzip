@@ -1,6 +1,6 @@
 /*
   zip_source_window.c -- return part of lower source
-  Copyright (C) 2012-2014 Dieter Baron and Thomas Klausner
+  Copyright (C) 2012-2017 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -143,7 +143,7 @@ window_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_sou
 
         case ZIP_SOURCE_OPEN:
 	    if (ctx->source_archive) {
-		zip_int64_t offset;
+		zip_uint64_t offset;
 
 		if ((offset = _zip_file_get_offset(ctx->source_archive, ctx->source_index, &ctx->error)) == 0) {
 		    return -1;

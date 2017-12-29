@@ -19,6 +19,7 @@
 #cmakedefine HAVE__STRTOUI64
 #cmakedefine HAVE__UMASK
 #cmakedefine HAVE__UNLINK
+#cmakedefine HAVE_CLONEFILE
 #cmakedefine HAVE_FILENO
 #cmakedefine HAVE_FSEEKO
 #cmakedefine HAVE_FTELLO
@@ -54,10 +55,12 @@
 #cmakedefine SIZE_T_LIBZIP ${SIZE_T_LIBZIP}
 #cmakedefine SSIZE_T_LIBZIP ${SSIZE_T_LIBZIP}
 #cmakedefine HAVE_DIRENT_H
+#cmakedefine HAVE_FTS_H
 #cmakedefine HAVE_NDIR_H
 #cmakedefine HAVE_SYS_DIR_H
 #cmakedefine HAVE_SYS_NDIR_H
 #cmakedefine WORDS_BIGENDIAN
+#cmakedefine HAVE_SHARED
 /* END DEFINES */
 #define PACKAGE "@PACKAGE@"
 #define VERSION "@VERSION@"

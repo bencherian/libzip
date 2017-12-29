@@ -1,4 +1,29 @@
-# API Plans
+# Soon
+
+* review guidelines/community standards
+  - (Linux Foundation Core Infrastructure Initiative Best Practices)[https://bestpractices.coreinfrastructure.org/]
+  - (Readme Maturity Level)[https://github.com/LappleApple/feedmereadmes/blob/master/README-maturity-model.md]
+  - (Github Community Profile)[https://github.com/nih-at/libzip/community]
+
+* migration to CMake
+  - replace `make distcheck`
+
+* run Coverity tests automatically via github/travis
+
+* switch to newer fcrypt sources, see https://github.com/BrianGladman/AES/issues/19
+
+* improve man page formatting of tagged lists on webpage (`<dl>`)
+
+* test error cases with special source
+  - tell it which command should fail
+  - use it both as source for `zip_add` and `zip_open_from_source`
+  
+
+# Later
+
+## macOS / iOS framework
+
+* get cmake to optionally build frameworks
 
 ## Prefixes
 
@@ -8,12 +33,11 @@ zip_set_archive_prefix(struct zip *za, const zip_uint8_t *data, zip_uint64_t len
 const zip_uint8_t *zip_get_archive_prefix(struct zip *za, zip_uint64_t *lengthp);
 ````
 
-# Compression
+## Compression
 
-* Test CMAKE for bzip2
 * add lzma support
 
-# API Issues
+## API Issues
 
 * `zip_get_archive_comment` has `int *lenp` argument.  Cleaner would be `zip_uint32_t *`.
   rename and fix.  which other functions for naming consistency?
@@ -22,13 +46,8 @@ const zip_uint8_t *zip_get_archive_prefix(struct zip *za, zip_uint64_t *lengthp)
 * compression/crypt error messages a la `ZIP_ER_ZLIB` (no detailed info passing)
 * check arguments for every entry point into libzip
 
-# Features
+## Features
 
-* Winzip AES support
-  * test cases decryption: <=20, >20, stat for both
-  * test cases encryption: no password, default password, file-specific password, 128/192/256, <=20, >20
-  * support testing on Linux
-  * support testing on macOS
 * consistently use `_zip_crypto_clear()` for passwords
 * support setting extra fields from `zip_source`
   * introduce layers of extra fields:
@@ -55,6 +74,7 @@ const zip_uint8_t *zip_get_archive_prefix(struct zip *za, zip_uint64_t *lengthp)
 * add custom compression function support
 * `zip_fseek()`
 * `zip_source_zip()`: allow rewinding
+* add `zip_abort()` to allow aborting `zip_close()` (can be called from progress callback)
 * zipcmp: add option for file content comparison
 * zipcmp: compare bit flags if paranoid
 * zipcmp: compare external attributes/opsys if paranoid
@@ -66,7 +86,7 @@ const zip_uint8_t *zip_get_archive_prefix(struct zip *za, zip_uint64_t *lengthp)
 
 * support for old compression methods?????
 
-# Bugs
+## Bugs
 
 * support InfoZIP encryption header extension (copy data descriptor for encrypted files)
 * ensure that nentries is small enough not to cause overflow (size_t for entry, uint64 for CD on disk)
@@ -78,7 +98,7 @@ const zip_uint8_t *zip_get_archive_prefix(struct zip *za, zip_uint64_t *lengthp)
 * `cdr == NULL` -> `ER_NOENT` vs. `idx > cdir->nentry` -> `ER_INVAL` inconsistent (still there?)
 
 
-# Cleanup
+## Cleanup
 
 * go over cdir parser and rename various offset/size variables to make it clearer
 * use bool
@@ -87,16 +107,23 @@ const zip_uint8_t *zip_get_archive_prefix(struct zip *za, zip_uint64_t *lengthp)
 * get rid of `zip_get_{compression,encryption}_implementation()`
 * use `zip_*int*_t` internally
 
-# Analysis
+## Analysis
 
 * pass through coverity
 
-# Infrastructure
+## Infrastructure
 
-* create CMakefile.txt man page linking from links file
+* rewrite make_zip_errors.sh in cmake
+* rewrite make_zip_err_str.sh in cmake
+* configure appveyor for Windows builds of libzip
 
-# Test Case Issues
+## Test Case Issues
 
+* consider testing for malloc/realloc failures (see `ckmame/regress/malloc.c`)
+* Winzip AES support
+  * test cases decryption: <=20, >20, stat for both
+  * test cases encryption: no password, default password, file-specific password, 128/192/256, <=20, >20
+  * support testing on macOS
 * add test cases for lots of files (including too many)
 * add test cases for holes (between files, between files and cdir, between cdir and eocd, + zip64 where appropriate)
 * unchange on added file
@@ -153,7 +180,7 @@ const zip_uint8_t *zip_get_archive_prefix(struct zip *za, zip_uint64_t *lengthp)
   * zip_open_from_source
 * read two zip entries interleaved
 
-# Unsorted
+## Unsorted
 
 * `zip_source_file()`: don't allow write if start/len specify a part of the file
 * script to check if all exported symbols are marked with `ZIP_EXTERN`, add to make distcheck
